@@ -6,7 +6,7 @@ for _ in range(N):
     li.append(list(map(int, sys.stdin.readline().rstrip())))
 
 
-def bfs(graph, x, y):
+def maze(graph, x, y):
     visited = [[0] * M for _ in range(N)]
     que = [[x, y]]
     visited[x][y] = 1
@@ -32,4 +32,4 @@ def bfs(graph, x, y):
             que.append([x, y + 1])
 
 
-print(bfs(li, 0, 0))
+print(maze(li, 0, 0))
