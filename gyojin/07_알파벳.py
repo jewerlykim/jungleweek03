@@ -1,34 +1,32 @@
 import sys
 
 R, C = map(int, sys.stdin.readline().split())
-li = []
-for _ in range(R):
-    li.append(list(sys.stdin.readline().rstrip()))
+# 아스키코드 변환하기 배웠음 #
+li = [list(map(lambda x: ord(x) - 65, sys.stdin.readline().rstrip())) for _ in range(R)]
+
+# 아스키코드를 쓰면 미리 배열을 선언하고 비교할 수 있어 딕셔너리보다 효율적 #
+visited = [0] * 26
+dx = [0, 1, 0, -1]
+dy = [1, 0, -1, 0]
 
 
-def alphabet(graph, x, y):
-    visited = []
-    stack = [[x, y]]
-    maxi = 0
+def alphabet(x, y, cnt):
+    global maxi
 
-    while stack:
-        top = stack.pop()
-        x, y = top[0], top[1]
+    maxi = max(maxi, cnt)
 
-        if graph[x][y] not in visited:
-            visited.append(graph[x][y])
-            if x - 1 >= 0:
-                stack.append([x - 1, y])
-            if x + 1 < R:
-                stack.append([x + 1, y])
-            if y - 1 >= 0:
-                stack.append([x, y - 1])
-            if y + 1 < C:
-                stack.append([x, y + 1])
+    for i in range(4):
+        xx = x + dx[i]
+        yy = y + dy[i]
 
-        maxi = max(maxi, len(visited))
+        if 0 <= xx < R and 0 <= yy < C and visited[li[xx][yy]] == 0:
+            visited[li[xx][yy]] = 1
+            alphabet(xx, yy, cnt+1)
+            visited[li[xx][yy]] = 0
 
     return maxi
 
 
-print(alphabet(li, 0, 0))
+visited[li[0][0]] = 1
+maxi = 1
+print(alphabet(0, 0, 1))
