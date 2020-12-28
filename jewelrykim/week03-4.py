@@ -2,7 +2,7 @@
 import sys
 # import numpy as np
 from collections import deque
-# sys.stdin = open("/Users/jewerlykim/Desktop/python_Algorithm/jungleweek03/jewelrykim/4.txt",'r')
+sys.stdin = open("/Users/jewerlykim/Desktop/python_Algorithm/jungleweek03/jewelrykim/4.txt",'r')
 
 M, N, H = map(int, sys.stdin.readline().split()) # 가로 세로 높이
 boxes = []

@@ -11,7 +11,7 @@ for _ in range(R):
 
 forest = np.array(forest)
 print(forest)
-
+visited = [[True for _ in range(C)] for _ in range(R)]
 water = deque()
 hog = deque()
 
@@ -30,18 +30,21 @@ def bfs_water():
     while hog:
         x , y = water.popleft()
         p , k = hog.popleft()
+        visited[p][k]=False
         for i in range(4):
             nx = x + dx[i]
             ny = y + dy[i]
+            if 0<=nx<R and 0<=ny<C and forest[nx][ny]!='D' and forest[nx][ny]!='X':
+                forest[nx][ny]='*'
+                water.append((nx,ny))
+
+        for i in range(4):
             np = p + dx[i]
             nk = k + dy[i]
             if 0<=np<R and 0<=nk<C and forest[np][nk]=='D':
                 forest[np][nk]=int(forest[p][k])+1
                 return forest[np][nk]
-            if 0<=nx<R and 0<=ny<C and forest[nx][ny]!='D' and forest[nx][ny]!='X' and forest[nx][ny]!=forest[p][k]:
-                forest[nx][ny]='*'
-                water.append((nx,ny))
-            if 0<=np<R and 0<=nk<C and forest[np][nk]=='.':
+            if 0<=np<R and 0<=nk<C and forest[np][nk]=='.' and visited[np][nk]:
                 forest[np][nk]=int(forest[p][k])+1
                 hog.append((np,nk))
         print(forest)
