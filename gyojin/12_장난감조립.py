@@ -1,6 +1,6 @@
 import sys
 
-sys.stdin = open('../co_coding/input.txt', 'r')
+sys.stdin = open('input.txt', 'r')
 N = int(sys.stdin.readline())
 M = int(sys.stdin.readline())
 toy = [[] for _ in range(N+1)]
