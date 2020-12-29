@@ -1,10 +1,9 @@
 # 탈출
 import sys
-import numpy as np
+# import numpy as np
 from collections import deque
 
-from numpy.lib.stride_tricks import DummyArray
-sys.stdin = open("/Users/jewerlykim/Desktop/python_Algorithm/jungleweek03/jewelrykim/5.txt", 'r')
+# sys.stdin = open("/Users/jewerlykim/Desktop/python_Algorithm/jungleweek03/jewelrykim/5.txt", 'r')
 
 R, C = map(int, sys.stdin.readline().split())
 forest = []
@@ -12,7 +11,7 @@ for _ in range(R):
     forest.append(list(map(str, sys.stdin.readline().rstrip())))
 
 # forest = np.array(forest)
-print(forest)
+# print(forest)
 water = deque()
 hog = deque()
 
@@ -30,19 +29,19 @@ def water_bfs():
         x, y = water.popleft()
         len_water -= 1
 
-        if x-1>=0 and forest[x-1][y]!='X' and forest[x-1][y]!='D':
+        if x-1>=0 and forest[x-1][y]!='X' and forest[x-1][y]!='D' and forest[x-1][y]!='*':
             forest[x-1][y] = '*'
             water.append((x-1,y))
 
-        if x+1<R and forest[x+1][y]!='X' and forest[x+1][y]!='D':
+        if x+1<R and forest[x+1][y]!='X' and forest[x+1][y]!='D' and forest[x+1][y]!='*':
             forest[x+1][y] = '*'
             water.append((x+1,y))
 
-        if y-1>=0 and forest[x][y-1]!='X' and forest[x][y-1]!='D':
+        if y-1>=0 and forest[x][y-1]!='X' and forest[x][y-1]!='D' and forest[x][y-1]!='*':
             forest[x][y-1] = '*'
             water.append((x,y-1))
 
-        if y+1<C and forest[x][y+1]!='X' and forest[x][y+1]!='D':
+        if y+1<C and forest[x][y+1]!='X' and forest[x][y+1]!='D' and forest[x][y+1]!='*':
             forest[x][y+1] = '*'
             water.append((x,y+1))
         
@@ -56,26 +55,26 @@ def hog_bfs():
         x, y = hog.popleft()
         len_hog -= 1
 
-        if x-1>=0 and forest[x-1][y]!='X' and forest[x-1][y]!='*':
+        if x-1>=0 and forest[x-1][y]!='X' and forest[x-1][y]!='*' and forest[x-1][y]!='S':
             if forest[x-1][y]=='D':return 1
             forest[x-1][y] = 'S'
             hog.append((x-1,y))
             # move +=1
 
-        if x+1<R and forest[x+1][y]!='X' and forest[x+1][y]!='*':
+        if x+1<R and forest[x+1][y]!='X' and forest[x+1][y]!='*' and forest[x+1][y]!='S':
             if forest[x+1][y] == 'D': return 1
             forest[x+1][y] = 'S'
             hog.append((x+1,y))
             # move +=1
             
 
-        if y-1>=0 and forest[x][y-1]!='X' and forest[x][y-1]!='*':
+        if y-1>=0 and forest[x][y-1]!='X' and forest[x][y-1]!='*' and forest[x][y-1]!='S':
             if forest[x][y-1] == 'D': return 1
             forest[x][y-1] = 'S'
             hog.append((x,y-1))
             # move +=1
 
-        if y+1<C and forest[x][y+1]!='X' and forest[x][y+1]!='*':
+        if y+1<C and forest[x][y+1]!='X' and forest[x][y+1]!='*' and forest[x][y+1]!='S':
             if forest[x][y+1] == 'D':return 1
             forest[x][y+1] = 'S'
             hog.append((x,y+1))

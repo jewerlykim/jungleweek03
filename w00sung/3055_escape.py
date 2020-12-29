@@ -24,7 +24,7 @@ for i in range(R):
             queue_water.append((i,j))
         if forest[i][j] == "S":
             queue_hedgehog.append((i,j))
-            hedgehog_count += 1
+            # hedgehog_count += 1
 
 
 def water_bfs(forest):
@@ -33,13 +33,13 @@ def water_bfs(forest):
     # hedgehog_count = len(queue_hedgehog)
     
     # 날짜가 지나면 끊어주는 것 추가
-    max_cnt = len(queue_water)
-    cnt = 0
-    while queue_water:
+    len_water = len(queue_water)
+    # 하루가 끝나는 조건
+    while len_water > 0:
         
         # 날짜 종료 조건
         x,y = queue_water.popleft()
-        cnt += 1
+        len_water -= 1
         
         for i in range(4):
             nx = x + dx[i]
@@ -53,44 +53,31 @@ def water_bfs(forest):
             if forest[nx][ny] == "X" or forest[nx][ny] == "D":
                 continue
             
-            ## 물이 비버 잡아먹으면 ?! 
-            # 개수 줄여주기
-            # if forest[nx][ny] == "S":
-            #     hedgehog_count -= 1
-
             # 중간에 다 잡아 먹었으면
             # 고려하지 않았음... 
             # 물 바로 옆에 있으면 안됨
+            # --> 해답 : 잡아먹혀도, 살아있다!!!!
 
 
             # 시작부터 옆에 있으면?
-            # if hedgehog_count == 0:
-            #     suc = "KAKTUS"
-            #     return
+            # --> 해답 : 잡아먹혀도, 살아있따!!!!
 
             # 중복 넣지 않게 꼭 이 조건 추가!
             if forest[nx][ny] != "*":
                 forest[nx][ny] = "*"
                 queue_water.append((nx,ny))
 
-            
-        
-        # 하루가 끝났습니다.
-        if cnt == max_cnt:
-            return
-
+# 바깥에 있는 sucess를 갖고오지말고,
+# True 를 내보낸다.
 
 def hedgehog_bfs(forest):
     # 성공 여부
-    global suc
-    move = 0
-    max_cnt = len(queue_hedgehog)
-    cnt = 0
+    len_hedgehog = len(queue_hedgehog)
 
-    while queue_hedgehog:
+    while len_hedgehog > 0:
         
         x,y = queue_hedgehog.popleft()
-        cnt += 1
+        len_hedgehog -= 1
 
         # 더이상 전진할 수 없을 때 !
         # suc = "KAKTUS"
@@ -108,38 +95,32 @@ def hedgehog_bfs(forest):
             
             # 비버집 !
             if forest[nx][ny] == "D":
-                suc = True
-                return suc
+                return True
 
             # 중복 넣지 않게 꼭 이 조건 추가! -- 메모리 초과 원인
+            # 물이었던것, 도치였던 것을 추가하지 않게끔
             if forest[nx][ny] == ".":
                 forest[nx][ny] = "S"
                 queue_hedgehog.append((nx,ny))
-                move += 1
-            
-
-        # 하루가 끝났습니다.
-        if cnt == max_cnt:
-            #모든 hedgehog가 돌 or 물에 갇힘
-            if move == 0:
-                suc = "KAKTUS"
-
-            return suc
 
 
-suc = False
+
 day = 0
 
-while suc == False:
-    water_bfs(forest)
-    suc = hedgehog_bfs(forest)
+
+# 잡아먹혀도 살아있는거임 !!!!!
+while True:
     day += 1
+    water_bfs(forest)
+    if hedgehog_bfs(forest):
+        print(day)
+        break
+    # success 하지 못하고, 0이면 KAKTUS다
+    if len(queue_hedgehog) == 0:
+        print("KAKTUS")
+        break
 
 
-if suc == True:
-    print(day)
-elif suc == "KAKTUS":
-    print("KAKTUS")
 
                 
     # if not queue_hedgehog:
