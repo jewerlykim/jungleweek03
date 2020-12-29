@@ -1,6 +1,7 @@
 # 빙산
 import sys
-# sys.stdin = open("/Users/jewerlykim/Desktop/python_Algorithm/jungleweek03/jewelrykim/9.txt",'r')
+from collections import deque
+sys.stdin = open("/Users/jewerlykim/Desktop/python_Algorithm/jungleweek03/jewelrykim/9.txt",'r')
 # import numpy as np
 sys.setrecursionlimit(10**9)
 N, M = map(int, sys.stdin.readline().split())
@@ -12,21 +13,32 @@ for _ in range(N):
 
 # graph = np.array(graph)
 # print(graph)
-def dfs(graph, x, y):
-    # 주어진 범위를 벗어나느 경우에는 즉시 종료
-    if x <= -1 or x >= N or y <= -1 or y >= M:
-        return False
-    # 현재노드를 아직 방문하지 않았다면
-    if graph[x][y] != 0:
-        # 해당 노드 방문 처리
-            graph[x][y] = 0
-            # 상, 하, 좌, 우의 위치도 모두 재귀적으로 호출
-            dfs(graph, x-1, y)
-            dfs(graph, x, y-1)
-            dfs(graph, x+1, y)
-            dfs(graph, x, y+1)
-            return True
-    return False
+dx = [-1,1,0,0]
+dy = [0,0,-1,1]
+
+def bfs(graph, x, y):
+
+    queue = deque()
+    queue.append((x,y))
+    graph[x][y] = 0
+
+    while queue:
+        x, y = queue.popleft()
+
+        if x-1>=0 and graph[x-1][y] != 0:
+            queue.append((x-1,y))
+            graph[x-1][y] = 0
+        if x+1<=N and graph[x+1][y] != 0:
+            queue.append((x+1,y))
+            graph[x+1][y] = 0
+        if y-1>=0 and graph[x][y-1] != 0:
+            queue.append((x,y-1))
+            graph[x][y-1] = 0
+        if y+1<=M and graph[x][y+1] != 0:
+            queue.append((x,y+1))
+            graph[x][y+1]=0
+
+
 
 def melt(graph, x, y):
     count = 0
@@ -49,7 +61,8 @@ def check(graph):
     count = 0
     for i in range(N):
         for j in range(M):
-            if graph[i][j]!=0 and dfs(graph, i, j):
+            if graph[i][j]!=0:
+                bfs(graph, i, j)
                 count += 1
     return count
 

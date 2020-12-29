@@ -1,7 +1,7 @@
 # 빙산
 import sys
-# sys.stdin = open("/Users/jewerlykim/Desktop/python_Algorithm/jungleweek03/jewelrykim/9.txt",'r')
-# import numpy as np
+sys.stdin = open("/Users/jewerlykim/Desktop/python_Algorithm/jungleweek03/jewelrykim/9.txt",'r')
+import numpy as np
 sys.setrecursionlimit(10**9)
 N, M = map(int, sys.stdin.readline().split())
 graph = []
@@ -10,10 +10,11 @@ days = 0
 for _ in range(N):
     graph.append(list(map(int, sys.stdin.readline().split())))
 
-# graph = np.array(graph)
-# print(graph)
+graph = np.array(graph)
+print(graph)
+
 def dfs(graph, x, y):
-    # 주어진 범위를 벗어나느 경우에는 즉시 종료
+    # 주어진 범위를 벗어나는 경우에는 즉시 종료
     if x <= -1 or x >= N or y <= -1 or y >= M:
         return False
     # 현재노드를 아직 방문하지 않았다면
@@ -43,6 +44,7 @@ def melt(graph, x, y):
         if graph[x][y+1]==0:
             count += 1
     return count
+    
 
 
 def check(graph):
@@ -56,20 +58,17 @@ def check(graph):
 while True:
     melt_graph = [[0 for _ in range(M)] for _ in range(N)]
     check_graph = [[0 for _ in range(M)] for _ in range(N)]
+    check_graph = np.array(check_graph)
     days += 1
 
     for i in range(N):
         for j in range(M):
             if graph[i][j]!=0:
-                melt_graph[i][j] = melt(graph, i, j)
-
-    for i in range(N):
-        for j in range(M):
-            if graph[i][j]!=0:
-                graph[i][j] -= melt_graph[i][j]
+                graph[i][j] -= melt(graph, i, j)
                 if graph[i][j]<0:
                     graph[i][j]=0
                 check_graph[i][j] = graph[i][j]
+    print(check_graph)
 
     if check(check_graph)>=2:
         print(days)
@@ -80,6 +79,3 @@ while True:
     if sums==0:
         print(0)
         break
-
-
-
