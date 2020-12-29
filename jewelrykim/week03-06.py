@@ -1,6 +1,6 @@
 # 동전 2 
 import sys
-# sys.stdin = open("/Users/jewerlykim/Desktop/python_Algorithm/jungleweek03/jewelrykim/6.txt",'r')
+sys.stdin = open("/Users/jewerlykim/Desktop/python_Algorithm/jungleweek03/jewelrykim/6.txt",'r')
 from collections import deque
 
 # 정보 받기
