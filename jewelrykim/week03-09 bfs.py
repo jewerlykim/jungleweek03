@@ -1,9 +1,9 @@
 # 빙산
 import sys
 from collections import deque
-sys.stdin = open("/Users/jewerlykim/Desktop/python_Algorithm/jungleweek03/jewelrykim/9.txt",'r')
+# sys.stdin = open("/Users/jewerlykim/Desktop/python_Algorithm/jungleweek03/jewelrykim/9.txt",'r')
 # import numpy as np
-sys.setrecursionlimit(10**9)
+# sys.setrecursionlimit(10**9)
 N, M = map(int, sys.stdin.readline().split())
 graph = []
 days = 0
