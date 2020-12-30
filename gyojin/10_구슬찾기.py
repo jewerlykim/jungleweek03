@@ -1,58 +1,59 @@
 import sys
-sys.setrecursionlimit(10**5)
-sys.stdin = open('input.txt', 'r')
+
+sys.setrecursionlimit(10 ** 5)
+# sys.stdin = open('input.txt', 'r')
 
 N, M = map(int, sys.stdin.readline().split())
-beads = []
-check = [[0,0] for _ in range(N+1)]
+lighter = [[] for _ in range(N + 1)]
+heavier = [[] for _ in range(N + 1)]
 
 for _ in range(M):
     h, l = map(int, sys.stdin.readline().split())
-    beads.append((h, l))
-    # check[l][0] += 1
-    # check[h][1] += 1
-
-visit = [False] * M
+    lighter[l].append(h)
+    heavier[h].append(l)
 
 
-def dfs_bead(k):
-
+def dfs_light(x):
+    cnt = 1
     # 자신보다 가벼운 구슬 개수, 무거운 구슬 개수 저장
-    heavy, light = beads[k]
+    l_visit[x] = True
 
-    check[light][0] += 1
-    check[heavy][1] += 1
-
-    for i in range(M):
+    for node in lighter[x]:
 
         # 가벼운 구슬은 자기보다 가벼운 구슬이 있는지 탐색
-        if beads[i][0] == light and visit[i] is False:
+        if l_visit[node] is False:
+            # 그 구슬보다 더 가벼운 구슬 dfs 탐색
+            cnt += dfs_light(node)
 
-            # 현재의 무거운 구슬보다 가벼운 구슬 수 추가
-            check[heavy][1] += 1
+    return cnt
 
-            visit[i] = True
-            dfs_bead(i)
+
+def dfs_heavy(x):
+    cnt = 1
+    h_visit[x] = True
+
+    for node in heavier[x]:
 
         # 무거운 구슬은 자기보다 무거운 구슬이 있는지 탐색
-        if beads[i][1] == heavy and visit[i] is False:
+        if h_visit[node] is False:
+            # 그 구슬보다 더 무거운 구슬 dfs 탐색
+            cnt += dfs_heavy(node)
 
-            # 현재의 가벼운 구슬보다 무거운 구슬 수 추가
-            check[light][0] += 1
-
-            visit[i] = True
-            dfs_bead(i)
+    return cnt
 
 
-for i in range(M):
-    if visit[i] is False:
-        dfs_bead(i)
-
-mid = (N+1) // 2
+mid = (N + 1) // 2
 ans = 0
-for pair in check:
-    if pair[0] >= mid or pair[1] >= mid:
+
+for i in range(1, N + 1):
+
+    # 방문배열 초기화
+    l_visit = [False] * (N + 1)
+    h_visit = [False] * (N + 1)
+
+    # 자신보다 무겁거나 가벼운 구슬 수가 중간지점보다 클 때
+    if dfs_light(i) > mid or dfs_heavy(i) > mid:
         ans += 1
 
-print(check)
+
 print(ans)
