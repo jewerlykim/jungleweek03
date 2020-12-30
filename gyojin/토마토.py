@@ -4,13 +4,13 @@ from collections import deque
 # sys.stdin = open('input.txt', 'r')
 M, N, H = map(int, sys.stdin.readline().split())
 tomato = [[] for _ in range(H)]
-non_tomato = 0
+nontomato = 0
 
 for i in range(H):
     for j in range(N):
         tomato[i].append(list(map(int, sys.stdin.readline().split())))
         # 안익은 토마토 개수 세기
-        non_tomato += tomato[i][j].count(0)
+        nontomato += tomato[i][j].count(0)
 
 que = deque()
 for i in range(H):
@@ -23,7 +23,7 @@ for i in range(H):
 
 
 def tomato_bfs():
-    global non_tomato
+    global nontomato
 
     # 모두 익어있으면 0 출력
     if non_tomato == 0:
